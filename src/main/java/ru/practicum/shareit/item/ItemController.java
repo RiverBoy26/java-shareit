@@ -1,44 +1,45 @@
 package ru.practicum.shareit.item;
 
-import jdk.dynalink.linker.LinkerServices;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.service.annotation.HttpExchange;
-import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.service.ItemService;
-import ru.practicum.shareit.item.service.ItemServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/items")
 public class ItemController {
+    @Autowired
     private ItemService itemService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Item addItem(Item item) {
-        return itemService.addItem(item);
+    public ItemDto addItem(@Valid @RequestBody ItemDto itemDto,
+                        @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return itemService.addItem(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
-    public Item renewItem(@PathVariable Long itemId) {
-        return itemService.renewItem(itemId);
+    public ItemDto renewItem(@Valid @RequestBody ItemDto itemDto, @PathVariable Long itemId,
+                          @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return itemService.renewItem(itemDto, itemId, userId);
     }
 
     @GetMapping("/{itemId}")
-    public Item getItemById(@PathVariable Long itemId) {
+    public ItemDto getItemById(@PathVariable Long itemId) {
         return itemService.getItemById(itemId);
     }
 
     @GetMapping
-    public List<Item> getAllItems() {
-        return itemService.getAllItems();
+    public List<ItemDto> getAllItems(@RequestHeader("X-Sharer-User-Id") Long userId) {
+        return itemService.getAllItems(userId);
     }
 
     @GetMapping("/search")
-    public List<Item> getItemsAfterSearch(@RequestParam String text) {
+    public List<ItemDto> getItemsAfterSearch(@RequestParam String text) {
         return itemService.getItemsAfterSearch(text);
     }
 }
