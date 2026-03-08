@@ -19,6 +19,6 @@ public class ItemRequestServiceImpl {
             throw new RuntimeException("Данный запрос не найден");
         }
 
-        return returnRequestById(requestId);
+        return itemRequestStorage.returnRequestById(requestId);
     }
 }
