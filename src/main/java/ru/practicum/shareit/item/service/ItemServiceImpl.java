@@ -1,6 +1,6 @@
 package ru.practicum.shareit.item.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.NotFoundException;
@@ -18,11 +18,11 @@ import java.util.Objects;
 
 @Service
 @Primary
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
-    private ItemStorage itemStorage;
+    private final ItemStorage itemStorage;
 
-    private UserStorage userStorage;
+    private final UserStorage userStorage;
 
     public ItemDto addItem(ItemDto itemDto, Long userId) {
         Item item = ItemMapper.toItem(itemDto);

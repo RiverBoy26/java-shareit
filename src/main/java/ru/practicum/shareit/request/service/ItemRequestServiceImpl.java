@@ -1,6 +1,6 @@
 package ru.practicum.shareit.request.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.request.dao.ItemRequestStorage;
 import ru.practicum.shareit.request.model.ItemRequest;
@@ -8,8 +8,8 @@ import ru.practicum.shareit.request.model.ItemRequest;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-public class ItemRequestServiceImpl {
+@RequiredArgsConstructor
+public class ItemRequestServiceImpl implements ItemRequestService {
     private final ItemRequestStorage itemRequestStorage;
 
     public ItemRequest returnRequestById(Long requestId) {

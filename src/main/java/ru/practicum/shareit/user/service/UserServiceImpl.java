@@ -1,6 +1,6 @@
 package ru.practicum.shareit.user.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValueAlreadyExistException;
@@ -12,9 +12,9 @@ import ru.practicum.shareit.user.model.User;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private UserStorage userStorage;
+    private final UserStorage userStorage;
 
     public UserDto addUser(UserDto userDto) {
         User user = UserMapper.toUser(userDto);
