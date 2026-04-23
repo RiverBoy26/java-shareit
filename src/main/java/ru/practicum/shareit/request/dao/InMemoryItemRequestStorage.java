@@ -3,7 +3,7 @@ package ru.practicum.shareit.request.dao;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.request.model.ItemRequest;
+import ru.practicum.shareit.request.entity.ItemRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;

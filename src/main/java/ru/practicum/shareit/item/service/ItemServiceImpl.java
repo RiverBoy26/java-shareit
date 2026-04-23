@@ -8,9 +8,9 @@ import ru.practicum.shareit.exception.NullValueException;
 import ru.practicum.shareit.item.dao.ItemStorage;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.mapper.ItemMapper;
-import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.item.entity.Item;
 import ru.practicum.shareit.user.dao.UserStorage;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class ItemServiceImpl implements ItemService {
 
     public List<ItemDto> getAllItems(Long userId) {
         return itemStorage.getAllItems().stream()
-                .filter(item -> Objects.equals(item.getOwner(), userId))
+                .filter(item -> Objects.equals(item.getOwner().getId(), userId))
                 .map(ItemMapper::toItemDto)
                 .toList();
     }
@@ -89,11 +89,11 @@ public class ItemServiceImpl implements ItemService {
         if (!usersIds.contains(userId)) {
             throw new NotFoundException("Пользователь " + userId + " не найден!");
         }
-        item.setOwner(userId);
+        item.setOwner(userStorage.returnUserById(userId));
     }
 
     private void itemOwnerNameDescAvailValidator(Item item, Item oldItem, long userId) {
-        if (oldItem.getOwner() != userId) {
+        if (oldItem.getOwner().getId() != userId) {
             throw new NotFoundException("Пользователь не является владельцем!");
         }
         if (item.getName() != null && !item.getName().isEmpty()) {

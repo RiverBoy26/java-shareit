@@ -7,17 +7,18 @@ import ru.practicum.shareit.exception.ValueAlreadyExistException;
 import ru.practicum.shareit.user.dao.UserStorage;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.entity.User;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private final UserMapper userMapper;
     private final UserStorage userStorage;
 
     public UserDto addUser(UserDto userDto) {
-        User user = UserMapper.toUser(userDto);
+        User user = userMapper.toEntity(userDto);
 
         if (userStorage.getAllUsers().contains(user)) {
             throw new ValueAlreadyExistException("Данный пользователь уже существует!");
@@ -29,11 +30,11 @@ public class UserServiceImpl implements UserService {
             throw new ValueAlreadyExistException("Пользователь с данной почтой уже существует!");
         }
 
-        return UserMapper.toUserDto(userStorage.addUser(user));
+        return userMapper.toDto(userStorage.addUser(user));
     }
 
     public UserDto renewUser(Long userId, UserDto userDto) {
-        User user = UserMapper.toUser(userDto);
+        User user = userMapper.toEntity(userDto);
 
         if (!userStorage.getAllUsers().stream().map(User::getId).toList().contains(userId)) {
             throw new NotFoundException("Данный пользователь не найден");
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
             throw new ValueAlreadyExistException("Пользователь с данной почтой уже существует!");
         }
 
-        return UserMapper.toUserDto(userStorage.renewUser(userId, UserMapper.toUser(userDto)));
+        return userMapper.toDto(userStorage.renewUser(userId, userMapper.toEntity(userDto)));
     }
 
     public UserDto getUserById(Long userId) {
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException("Данный пользователь не найден");
         }
 
-        return UserMapper.toUserDto(userStorage.returnUserById(userId));
+        return userMapper.toDto(userStorage.returnUserById(userId));
     }
 
     public void deleteUser(Long userId) {
