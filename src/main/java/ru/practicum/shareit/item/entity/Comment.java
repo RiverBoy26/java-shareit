@@ -1,12 +1,12 @@
 package ru.practicum.shareit.item.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 import ru.practicum.shareit.user.entity.User;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Data
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -18,13 +18,13 @@ public class Comment {
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
-    private User user;
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
 
-    @Column(name = "created")
-    private LocalDateTime createDate;
+    @Column(name = "created", nullable = false)
+    private LocalDateTime created;
 }

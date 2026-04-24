@@ -2,7 +2,6 @@ package ru.practicum.shareit.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 @Entity
