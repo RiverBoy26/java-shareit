@@ -1,15 +1,13 @@
 package ru.practicum.shareit.user.dao;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.entity.User;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-@Primary
 public class InMemoryUserStorage implements UserStorage {
     private final Map<Long, User> users = new HashMap<>();
     private Long maxId = 0L;

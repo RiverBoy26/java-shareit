@@ -3,9 +3,9 @@ package ru.practicum.shareit.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.CONFLICT)
-public class ValueAlreadyExistException extends RuntimeException {
-    public ValueAlreadyExistException(String message) {
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class UnavailableException extends RuntimeException {
+    public UnavailableException(String message) {
         super(message);
     }
 }
