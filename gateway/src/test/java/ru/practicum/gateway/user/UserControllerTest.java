@@ -1,6 +1,7 @@
 package ru.practicum.gateway.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -9,11 +10,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.gateway.user.dto.UserDto;
+import ru.practicum.gateway.user.validator.UserValidator;
 
 import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -33,6 +36,9 @@ class UserControllerTest {
 
     @MockBean
     private UserClient userClient;
+
+    @MockBean
+    private UserValidator userValidator;
 
     @Test
     void addUser_shouldReturnCreatedUser() throws Exception {
@@ -89,6 +95,10 @@ class UserControllerTest {
     @Test
     void renewUser_shouldReturnBadRequestWhenEmailInvalid() throws Exception {
         UserDto patch = new UserDto(null, null, "bad-email");
+
+        doThrow(new ValidationException("Некорректный email"))
+                .when(userValidator)
+                .validatePatch(any(UserDto.class));
 
         mockMvc.perform(patch("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)

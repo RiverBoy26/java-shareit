@@ -3,6 +3,7 @@ package ru.practicum.server.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.server.exception.NotFoundException;
+import ru.practicum.server.exception.UnavailableException;
 import ru.practicum.server.exception.ValueAlreadyExistException;
 import ru.practicum.server.user.dto.UserDto;
 import ru.practicum.server.user.mapper.UserMapper;
